@@ -1,6 +1,6 @@
 <?php
 
-include_once ("./connect/connect.php");
+include ("./connect/connect.php");
 
 class UserGet extends ConnectionDb
 {

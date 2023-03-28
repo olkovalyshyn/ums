@@ -13,7 +13,7 @@ $role = $_POST['role'];
 
 class UserAdd extends ConnectionDb
 {
-    public $response = array('status' => false);
+    public $response = array('status' => false, 'error' => array('code' => 100, 'message'=> 'not found user'));
     public function add($firstName, $lastName, $status, $role, $selection = 'no')
     {
         if (isset($firstName) && $firstName != '' && isset($lastName) && $lastName != '' && isset($status) && $status != '' && isset($role) && $role != '') {
@@ -25,7 +25,7 @@ class UserAdd extends ConnectionDb
             }
 
         }
-        echo json_encode($this->response);
+        return json_encode($this->response);
     }
 }
 

@@ -3,7 +3,7 @@ include_once("../connect/connect.php");
 $id = $_POST['id'];
 class UserDelete extends ConnectionDb
 {
-    public $response = array('status' => false);
+    public $response = array('status' => false, 'error' => array('code' => 100, 'message'=> 'not found user'));
     public function delete($id)
     {
         $sql = "DELETE FROM `users` WHERE `id` = '$id'";
