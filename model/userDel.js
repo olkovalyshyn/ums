@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('.btn-del-user').on('click', function () {
         let id = $(this).closest('tr').data('id');
-
+//виклик модального вікна для підтвердження видалення
         let isDeleteUser;
         $('#modalConfirmDelete').modal('show');
 

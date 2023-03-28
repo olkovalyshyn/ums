@@ -1,10 +1,4 @@
-<?php include_once("./model/userGet.php");
-$user = new UserGet();
-$listUsers = $user->get();
-
-//echo "<pre>";
-//print_r($listUsers);
-//echo "</pre>";
+<?php
 
 ?>
 <div class="e-table">
@@ -15,7 +9,7 @@ $listUsers = $user->get();
                 <th class="align-top">
                     <div
                             class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0">
-                        <input type="checkbox" class="all-items custom-control-input" id="all-items">
+                        <input type="checkbox" class="all-items custom-control-input"  id="all-items">
                         <label class="custom-control-label" for="all-items"></label>
                     </div>
                 </th>
@@ -67,16 +61,9 @@ $listUsers = $user->get();
 //            ?>
 
 
-            <?php include("./views/modal.php") ?>
+<!--            --><?php //include("./views/modal.php") ?>
 
         </table>
     </div>
 </div>
 
-<!--<script type="text/javascript">-->
-<!--    console.log("first");-->
-<!---->
-<!--    $('#btn-edit').click(function (){-->
-<!--        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!");-->
-<!--    })-->
-<!--</script>-->

@@ -7,7 +7,6 @@ $lastName = $_POST['lastName'];
 $role = $_POST['role'];
 $status = $_POST['status'];
 
-//echo $_POST;
 class UserEdit extends ConnectionDb
 {
     public $response = array('status' => false, 'error' => array('code' => 100, 'message'=> 'not found user'));

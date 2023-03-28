@@ -7,10 +7,6 @@ $lastName = $_POST['lastName'];
 $status = $_POST['status'];
 $role = $_POST['role'];
 
-//echo "<pre>";
-//print_r($_POST);
-//echo "</pre>";
-
 class UserAdd extends ConnectionDb
 {
     public $response = array('status' => false, 'error' => array('code' => 100, 'message'=> 'not found user'));
@@ -23,7 +19,6 @@ class UserAdd extends ConnectionDb
             if($result->execute($params)){
                 $this->response['status'] = true;
             }
-
         }
         return json_encode($this->response);
     }

@@ -1,10 +1,8 @@
 //нижній блок кнопок і селекторів
 $(document).ready(function() {
-    //button OK
-    $('#btnOK').click(function () {
-        let selectedOption = $('select[id="selectedOption"] option:selected').attr('id');
-        //робота з різними опціями селекта
-        if (selectedOption === 'setActive') {
+    $('#btnOKBottom').click(function () {
+        let selectedOptionBottom = $('select[id="selectedOptionBottom"] option:selected').attr('id');
+        if (selectedOptionBottom === 'setActiveBottom') {
             $('input[type="checkbox"]:checked').each(function () {
                 let id = $(this).closest('tr').data('id');
                 $('tr[data-id="' + id + '"] #statusMark').removeClass('not-active-circle ').addClass('active-circle');
@@ -23,8 +21,8 @@ $(document).ready(function() {
                 })
             })
         }
-        //робота з різними опціями селекта
-        if (selectedOption === 'setNotActive') {
+
+        if (selectedOptionBottom === 'setNotActiveBottom') {
             $('input[type="checkbox"]:checked').each(function () {
                 let id = $(this).closest('tr').data('id');
                 $('tr[data-id="' + id + '"] #statusMark').removeClass('active-circle ').addClass('not-active-circle');
@@ -43,8 +41,8 @@ $(document).ready(function() {
                 })
             })
         }
-        //робота з різними опціями селекта
-        if (selectedOption === 'delete-option') {
+
+        if (selectedOptionBottom === 'delete-optionBottom') {
             $('input[type="checkbox"]:checked').each(function () {
                 let id = $(this).closest('tr').data('id');
 
@@ -64,17 +62,19 @@ $(document).ready(function() {
 
 //вікно попередження, що обраний користувач, натиснута кнопка «ОК», але не вибрано дію в селектбоксі
         let countChecked = $('input[type="checkbox"]:checked').length;
-        if(selectedOption === 'unselected' && countChecked > 0){
+        if(selectedOptionBottom === 'unselectedBottom' && countChecked > 0){
             $('#modalWarning').modal('show');
             $('.warning-text').html('No action selected. Please make a choice');
         }
 
         //вікно попередження, що не обрані користувачі, а в селектбоксі обрана опція та натиснута кнопка «ОК»
 
-        if(selectedOption !== 'unselected' && countChecked == 0){
+        if(selectedOptionBottom !== 'unselectedBottom' && countChecked == 0){
             $('#modalWarning').modal('show');
             $('.warning-text').html('No users selected! Please choose users.');
         }
 
     })
+
+
 });
