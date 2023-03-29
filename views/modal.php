@@ -32,7 +32,7 @@
                     <div class="form-group">
                         <div class="col-form-label">Role:</div>
                         <select id="modal-role">Role:
-                            <option selected disabled>-Please Select-</option>
+                            <option value="-Please Select-" selected disabled>-Please Select-</option>
                             <option value="Admin">Admin</option>
                             <option value="User">User</option>
                         </select>

@@ -1,28 +1,27 @@
 $(document).ready(function () {
-    let checkboxes = $('table input[type="checkbox"]');
+    let parentCheckbox = $('input[name="parent"]');
 
     // при натисканні чекбокса в шапці виділяютсья усі чекбокси в таблиці
-    $('.all-items').click(function () {
-        checkboxes = $(this).closest('table').find('input[type="checkbox"]');
-        let isCheckedHeader = $(this).is(':checked');
-        checkboxes.each(function () {
-            $(this).prop('checked', isCheckedHeader)
-        })
-
-    });
-
+    parentCheckbox.click(function () {
+        let childCheckboxes = $('input[name="child"]');
+        if ($(this).is(':checked')) {
+            childCheckboxes.prop('checked', true)
+        } else {
+            childCheckboxes.prop('checked', false)
+        }
+    })
 
 //якщо хоча б один із чекбоксів таблиці знятий, то чекбокс в шапці теж знімає checked
-//     let count = 0;
-//     $('input[type="checkbox"]').click(function () {
-//         console.log($(this).length);
-//
-//         $('input[type="checkbox"]:checked').each(function () {
-//             let id = $(this).closest('tr').data('id');
-//             count = count + $('tr[data-id="' + id + '"] .select-option ').data("count");
-//             console.log(count);
-//         })
-//     })
-
+    $('body').mousedown(function () {
+        let childCheckboxes = $('input[name="child"]');
+        childCheckboxes.click(function () {
+            let isCheckedAllChild = true;
+            $(childCheckboxes).each(function () {
+                isCheckedAllChild = isCheckedAllChild && $(this).is(':checked');
+            })
+            parentCheckbox.prop('checked', isCheckedAllChild)
+        })
+    })
 })
+
 

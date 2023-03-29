@@ -37,14 +37,15 @@
             </div>
         </div>
     </div>
-    <script src="./model/userDel.js"></script>
 
+    <script src="./model/userDel.js"></script>
     <script src="./model/UserSelectOption.js"></script>
     <script src="./model/UserSelectOptionBottom.js"></script>
     <script src="./model/checkBoxesChange.js"></script>
     <script src="./model/UserAdd.js"></script>
     <script src="./model/userEdit.js"></script>
     <script src="./model/serverToClient.js"></script>
+    <script src="./model/clientToServerCheckboxes.js"></script>
 
 </body>
 </html>
