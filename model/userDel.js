@@ -3,7 +3,7 @@ $(document).ready(function () {
         $('.btn-del-user').click(function () {
             let id = $(this).closest('tr').data('id');
 
-//виклик модального вікна для підтвердження видалення
+ //виклик модального вікна для підтвердження видалення
             let isDeleteUser;
             $('#modalConfirmDelete').modal('show');
 
@@ -13,6 +13,7 @@ $(document).ready(function () {
 
 
                 if (isDeleteUser == "yes") {
+
                     $.ajax({
                         url: '../model/UserDel.php',
                         method: 'POST',
@@ -20,16 +21,31 @@ $(document).ready(function () {
                             id: id,
                         },
                         success: function (response) {
+
                             let res = jQuery.parseJSON(response);
                             return res;
                         }
                     });
+
+                    //видаляє рядок на фронті
+                    $('tr[data-id="' + id + '"]').remove();
                 }
             });
-            $('#modal-btn-no').on("click", function () {
+            $('#modal-btn-no').click(function () {
+                //закриває модалку
                 $('#modalConfirmDelete').modal('hide');
 
                 isDeleteUser = "no";
+
+                //ставить select options в початкову позицію після виконання дії по option Delete
+                $('#selectedOption').val('-Please Select-');
+
+                //знімає виділення із чекбоксів після виконання дії
+                $('input[type="checkbox"]').each(function () {
+                    $(this).prop('checked', false);
+                })
+
+
             });
 
         });

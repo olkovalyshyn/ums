@@ -73,6 +73,9 @@ $(document).ready(function () {
                                 return res;
                             }
                         })
+                        //видаляє рядок на фронті
+                        $('tr[data-id="' + id + '"]').remove();
+
                     })
                 }
             })
@@ -98,7 +101,7 @@ $(document).ready(function () {
 
         $('#btnOK').mouseup(function () {
 //знімає виділення із чекбоксів після виконання дії
-            $('input[name="child"]').each(function () {
+            $('input[type="checkbox"]').each(function () {
                 $(this).prop('checked', false);
             })
 //ставить select options в початкову позицію після виконання дії

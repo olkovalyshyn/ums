@@ -73,8 +73,12 @@ $(document).ready(function () {
                                 return res;
                             }
                         })
+                        //видаляє рядок на фронті
+                        $('tr[data-id="' + id + '"]').remove();
                     })
+
                 }
+
             })
             $('#modal-btn-no').on("click", function () {
                 $('#modalConfirmDelete').modal('hide');
@@ -98,12 +102,12 @@ $(document).ready(function () {
         }
 
         $('#btnOKBottom').mouseup(function () {
- //знімає виділення із чекбоксів після виконання дії
+            //знімає виділення із чекбоксів після виконання дії
 
-            $('input[name="child"]').each(function () {
+            $('input[type="checkbox"]').each(function () {
                 $(this).prop('checked', false);
             })
- //ставить select options в початкову позицію після виконання дії
+            //ставить select options в початкову позицію після виконання дії
             $('#selectedOptionBottom').val('-Please Select-')
 
         });

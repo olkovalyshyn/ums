@@ -26,5 +26,5 @@ class UserEdit extends ConnectionDb
 
 }
 
-$userEdt = new UserEdit();
-$userEdt->edit($id, $firstName, $lastName, $role, $status);
+$userEdit = new UserEdit();
+$userEdit->edit($id, $firstName, $lastName, $role, $status);

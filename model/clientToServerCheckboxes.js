@@ -23,5 +23,5 @@ function pushCheckboxes(){
     })
 
 }
-    setInterval(function (){pushCheckboxes()}, 500)
+    // setInterval(function (){pushCheckboxes()}, 500)
 
