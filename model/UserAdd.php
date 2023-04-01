@@ -8,11 +8,10 @@ $role = $_POST['role'];
 
 class UserAdd extends ConnectionDb
 {
-
     public $response = array('status' => false, 'error' => array('code' => 100, 'message'=> 'not found user'));
-    public function add($firstName, $lastName, $status, $role, $selection = 'off')
+    public function add($firstName, $lastName,  $status, $role = 'User', $selection = 'off')
     {
-        if (isset($firstName) && $firstName != '' && isset($lastName) && $lastName != '' && isset($status) && $status != '' && isset($role) && $role != '') {
+        if (isset($firstName) && $firstName != '' && isset($lastName) && $lastName != '') {
             $sql = "INSERT INTO `users` (`selection`, `first_name`, `last_name` ,`role`, `status`) VALUE (:selection, :first_name, :last_name, :role, :status)";
             $result = $this->connect()->prepare($sql);
             $params = ['selection' => $selection, 'first_name' => $firstName, 'last_name' => $lastName, 'role' => $role, 'status' => $status];
@@ -20,10 +19,8 @@ class UserAdd extends ConnectionDb
             if($result->execute($params)){
                 $this->response['status'] = true;
             }
-
         }
         return json_encode($this->response);
-
     }
 }
 

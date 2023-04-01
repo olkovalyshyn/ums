@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body warning-text">
-                Do you confirm the deletion of the user?
+                Do you confirm the deletion of the user???
             </div>
             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" id="modal-btn-yes">Yes</button>

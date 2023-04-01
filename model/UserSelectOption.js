@@ -1,8 +1,9 @@
 //верхній блок кнопок і селекторів
+
 $(document).ready(function () {
 
     //button OK
-    $('#btnOK').mousedown(function () {
+    $('#btnOK' ).mousedown(function () {
 
         let selectedOption = $('select[id="selectedOption"] option:selected').attr('id');
         //робота з різними опціями селекта
@@ -48,13 +49,14 @@ $(document).ready(function () {
             })
         }
 
-//робота з різними опціями селекта
-        if (selectedOption === 'delete-option') {
+//робота з різними опціями селекта (при умові, що є checked, щоб уникнути show modal на видалення)
+        if (selectedOption === 'delete-option' && $('input[type="checkbox"]:checked').length > 0) {
 //виклик модального вікна для підтвердження видалення
+
             $('#modalConfirmDelete').modal('show');
             let isDeleteUser;
 
-            $('#modal-btn-yes').on("click", function () {
+            $('#modal-btn-yes').click(function () {
                 isDeleteUser = "yes";
                 $('#modalConfirmDelete').modal('hide');
 
@@ -76,12 +78,25 @@ $(document).ready(function () {
                         //видаляє рядок на фронті
                         $('tr[data-id="' + id + '"]').remove();
 
+                        //ставить select options в початкову позицію після виконання дії по option Delete
+                        $('#selectedOption').val('-Please Select-');
+
+
                     })
                 }
             })
-            $('#modal-btn-no').on("click", function () {
+            $('#modal-btn-no').click(function () {
                 $('#modalConfirmDelete').modal('hide');
                 isDeleteUser = "no";
+
+                //ставить select options в початкову позицію після виконання дії по option Delete
+                $('#selectedOption').val('-Please Select-');
+
+
+                //знімає виділення і чекбоксів, якщо була відмова по видаленню
+                $('input[type="checkbox"]:checked').each(function () {
+                    $(this).prop('checked', false);
+                });
             });
 
         }
@@ -93,7 +108,7 @@ $(document).ready(function () {
             $('.warning-text').html('No action selected. Please make a choice');
         }
 
- //вікно попередження, що не обрані користувачі, а в селектбоксі обрана опція та натиснута кнопка «ОК»
+        //вікно попередження, що не обрані користувачі, а в селектбоксі обрана опція та натиснута кнопка «ОК»
         if (selectedOption !== 'unselected' && countChecked == 0) {
             $('#modalWarning').modal('show');
             $('.warning-text').html('No users selected! Please choose users.');
@@ -110,4 +125,3 @@ $(document).ready(function () {
         });
     })
 });
-

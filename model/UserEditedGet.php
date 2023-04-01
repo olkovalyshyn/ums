@@ -1,14 +1,17 @@
 <?php
 include_once("../connect/connect.php");
 
-$id = $_POST['id'];
+$id = $_GET['id'];
+
 class UserEditedGet extends ConnectionDb
 {
     public function get($id)
     {
-        $sql = "SELECT * FROM `users` WHERE `id` = '$id'";
+
+        $sql = "SELECT * FROM `users` WHERE `id` = :id";
         $result = $this->connect()->prepare($sql);
-        $result->execute();
+        $params = ['id' => $id];
+        $result->execute($params);
         return $result->fetchAll();
     }
 

@@ -48,13 +48,14 @@ $(document).ready(function () {
             })
         }
 
-//робота з різними опціями селекта
-        if (selectedOptionBottom === 'delete-optionBottom') {
+//робота з різними опціями селекта (при умові, що є checked, щоб уникнути show modal на видалення)
+        if (selectedOptionBottom === 'delete-optionBottom' && $('input[type="checkbox"]:checked').length > 0) {
+
 //виклик модального вікна для підтвердження видалення
             $('#modalConfirmDelete').modal('show');
             let isDeleteUser;
 
-            $('#modal-btn-yes').on("click", function () {
+            $('#modal-btn-yes').click(function () {
                 isDeleteUser = "yes";
                 $('#modalConfirmDelete').modal('hide');
 
@@ -75,16 +76,28 @@ $(document).ready(function () {
                         })
                         //видаляє рядок на фронті
                         $('tr[data-id="' + id + '"]').remove();
+
+                        //ставить select options в початкову позицію після виконання дії по option Delete
+                        $('#selectedOptionBottom').val('-Please Select-');
+
                     })
 
                 }
 
             })
-            $('#modal-btn-no').on("click", function () {
+            $('#modal-btn-no').click(function () {
                 $('#modalConfirmDelete').modal('hide');
                 isDeleteUser = "no";
-            });
 
+                //ставить select options в початкову позицію після виконання дії по option Delete
+                $('#selectedOptionBottom').val('-Please Select-');
+
+                //знімає виділення і чекбоксів, якщо була відмова по видаленню
+                $('input[type="checkbox"]:checked').each(function () {
+                    let id = $(this).closest('tr').data('id');
+                    $(this).prop('checked', false);
+                });
+            });
         }
 
 //вікно попередження, що обраний користувач, натиснута кнопка «ОК», але не вибрано дію в селектбоксі

@@ -17,13 +17,13 @@ class UserEdit extends ConnectionDb
             $sql = "UPDATE `users` SET `first_name`= :firstName, `last_name`= :lastName, `role`= :role, `status`= :status WHERE `id` = :id";
             $params = [':firstName' => $firstName, ':lastName' => $lastName, ':role' => $role, ':status' => $status, ':id' => $id];
             $result = $this->connect()->prepare($sql);
+
             if($result->execute($params)){
                 $this->response['status'] = true;
             }
         }
         return json_encode($this->response);
     }
-
 }
 
 $userEdit = new UserEdit();
