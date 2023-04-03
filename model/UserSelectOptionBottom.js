@@ -58,7 +58,7 @@ $(document).ready(function () {
             $('.warning-text').html('Do you confirm delete of the user?');
 
             let isDeleteUser;
-            
+
             //дії по кнопці так модалки
             $('#modal-btn-yes').click(function () {
                 isDeleteUser = "yes";

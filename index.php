@@ -38,12 +38,12 @@
         </div>
     </div>
     <script src="model/UserAddedGetAll.js"></script>
-    <script src="./model/userDel.js"></script>
+    <script src="model/UserDel.js"></script>
     <script src="./model/UserSelectOption.js"></script>
     <script src="./model/UserSelectOptionBottom.js"></script>
     <script src="./model/checkBoxesChange.js"></script>
     <script src="./model/UserAdd.js"></script>
-    <script src="./model/userEdit.js"></script>
+    <script src="model/UserEdit.js"></script>
 
 
 </body>
