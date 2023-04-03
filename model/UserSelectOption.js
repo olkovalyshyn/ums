@@ -1,9 +1,9 @@
 //верхній блок кнопок і селекторів
-
 $(document).ready(function () {
 
-    //button OK
-    $('#btnOK' ).mousedown(function () {
+    //button OK (mousedown для основних дій, а mouseup для зняття чекбоксів)
+    $('#btnOK').mousedown(function () {
+
 
         let selectedOption = $('select[id="selectedOption"] option:selected').attr('id');
         //робота з різними опціями селекта
@@ -25,9 +25,8 @@ $(document).ready(function () {
                     }
                 })
             })
-
-
         }
+
         //робота з різними опціями селекта
         if (selectedOption === 'setNotActive') {
             $('input[type="checkbox"]:checked').each(function () {
@@ -44,6 +43,10 @@ $(document).ready(function () {
                     success: function (response) {
                         let res = jQuery.parseJSON(response);
                         return res;
+                    },
+                    error: function (xhr, status, error) {
+                        let res = jQuery.parseJSON(error);
+                        return res;
                     }
                 })
             })
@@ -51,11 +54,16 @@ $(document).ready(function () {
 
 //робота з різними опціями селекта (при умові, що є checked, щоб уникнути show modal на видалення)
         if (selectedOption === 'delete-option' && $('input[type="checkbox"]:checked').length > 0) {
-//виклик модального вікна для підтвердження видалення
 
+            //виклик модального вікна для підтвердження видалення
             $('#modalConfirmDelete').modal('show');
+
+            //встановлює текст модального повідомлення
+            $('.warning-text').html('Do you confirm delete of the user?');
+
             let isDeleteUser;
 
+            //дії по кнопці так модалки
             $('#modal-btn-yes').click(function () {
                 isDeleteUser = "yes";
                 $('#modalConfirmDelete').modal('hide');
@@ -63,7 +71,6 @@ $(document).ready(function () {
                 if (isDeleteUser == "yes") {
                     $('input[type="checkbox"]:checked').each(function () {
                         let id = $(this).closest('tr').data('id');
-
                         $.ajax({
                             url: '../model/UserDel.php',
                             method: 'POST',
@@ -75,16 +82,16 @@ $(document).ready(function () {
                                 return res;
                             }
                         })
+
                         //видаляє рядок на фронті
                         $('tr[data-id="' + id + '"]').remove();
 
                         //ставить select options в початкову позицію після виконання дії по option Delete
                         $('#selectedOption').val('-Please Select-');
-
-
                     })
                 }
             })
+            //дії по кнопці ні модалки
             $('#modal-btn-no').click(function () {
                 $('#modalConfirmDelete').modal('hide');
                 isDeleteUser = "no";
@@ -92,16 +99,17 @@ $(document).ready(function () {
                 //ставить select options в початкову позицію після виконання дії по option Delete
                 $('#selectedOption').val('-Please Select-');
 
-
                 //знімає виділення і чекбоксів, якщо була відмова по видаленню
                 $('input[type="checkbox"]:checked').each(function () {
                     $(this).prop('checked', false);
                 });
             });
-
         }
 
-//вікно попередження, що обраний користувач, натиснута кнопка «ОК», але не вибрано дію в селектбоксі
+        //встановлює назву модального Warning
+        $('.modal-title').html('Warning!');
+
+        //вікно попередження, що обраний користувач, натиснута кнопка «ОК», але не вибрано дію в селектбоксі
         let countChecked = $('input[type="checkbox"]:checked').length;
         if (selectedOption === 'unselected' && countChecked > 0) {
             $('#modalWarning').modal('show');
@@ -115,12 +123,13 @@ $(document).ready(function () {
         }
 
         $('#btnOK').mouseup(function () {
-//знімає виділення із чекбоксів після виконання дії
+            //знімає виділення із чекбоксів після виконання дії
             $('input[type="checkbox"]').each(function () {
                 $(this).prop('checked', false);
             })
-//ставить select options в початкову позицію після виконання дії
-            $('#selectedOption').val('-Please Select-')
+
+            //ставить select options в початкову позицію після виконання дії
+            $('#selectedOption').val('-Please Select-');
 
         });
     })

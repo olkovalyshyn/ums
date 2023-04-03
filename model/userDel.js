@@ -3,14 +3,27 @@ $(document).ready(function () {
         $('.btn-del-user').click(function () {
             let id = $(this).closest('tr').data('id');
 
- //виклик модального вікна для підтвердження видалення
+            //знімає виділення із option перед редагуванням юзера (якщо попередньо були натиснуті і не викорстані)
+            $('#selectedOption, #selectedOptionBottom').val('-Please Select-');
+
+            //знімає виділення із чекбоксів після виконання дії
+            $('input[type="checkbox"]').each(function () {
+                $(this).prop('checked', false);
+            })
+
+            //встановлює назву модального Warning
+            $('.modal-title').html('Warning!');
+
+            //встановлює текст модального повідомлення
+            $('.warning-text').html('Do you confirm delete of the user?');
+
+            //виклик модального вікна для підтвердження видалення
             let isDeleteUser;
             $('#modalConfirmDelete').modal('show');
 
             $('#modal-btn-yes').on("click", function () {
                 isDeleteUser = "yes";
                 $('#modalConfirmDelete').modal('hide');
-
 
                 if (isDeleteUser == "yes") {
 
@@ -21,8 +34,11 @@ $(document).ready(function () {
                             id: id,
                         },
                         success: function (response) {
-
                             let res = jQuery.parseJSON(response);
+                            return res;
+                        },
+                        error: function (xhr, status, error) {
+                            let res = jQuery.parseJSON(error);
                             return res;
                         }
                     });
@@ -31,23 +47,14 @@ $(document).ready(function () {
                     $('tr[data-id="' + id + '"]').remove();
                 }
             });
+
             $('#modal-btn-no').click(function () {
                 //закриває модалку
                 $('#modalConfirmDelete').modal('hide');
 
                 isDeleteUser = "no";
 
-                //ставить select options в початкову позицію після виконання дії по option Delete
-                $('#selectedOption').val('-Please Select-');
-
-                //знімає виділення із чекбоксів після виконання дії
-                $('input[type="checkbox"]').each(function () {
-                    $(this).prop('checked', false);
-                })
-
-
             });
-
         });
     })
 });

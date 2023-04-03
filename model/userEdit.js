@@ -1,33 +1,34 @@
 $(document).ready(function () {
 
 //для формування об'єкта едіт
-    $('body').mousedown(function () {
-
+    $('body').on('mousedown', function () {
 
 //виклик модалки для редагування юзера
         $('.btn-edit-user').click(function () {
+
+            //знімає виділення із чекбоксів перед редагуванням юзера (якщо попередньо були натиснуті)
+            $('input[type="checkbox"]').each(function () {
+                $(this).prop('checked', false);
+            })
+
             //модальному вікну надається дата-режим "edit"
             $('.modal-content').attr('data-mode', 'edit');
-
             let mode = $('.modal-content').attr('data-mode');
 
-            // let id = $(this).closest('tr').data('id');
-
+            //визначаєтсья поточний рядок для подальшого діставання id саме із того рядка, де був клік на кнопці
             let currentRow = $(this).closest('tr');
             let id = currentRow.data('id');
 
             // модальній кнопці дає поточний рядок натиснутого рядка
             $('#modal-btn-save').data('currentRow', currentRow);
 
-            // модальній кнопці дає id натиснутого рядка
-            // $('#modal-btn-save').data('id', id);
-
+            //знімає виділення із option перед редагуванням юзера (якщо попередньо були натиснуті і не викорстані)
+            $('#selectedOption, #selectedOptionBottom').val('-Please Select-');
 
             //змінює назву модального вікна відповідно до режиму
             $('.modal-header').html('<h5 class="modal-title" id="UserModalLabel">Edit user</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
 
-
-//отримання даних із відповідного рядка
+            //отримання даних із відповідного рядка
             if (mode === 'edit') {
                 let name = $('tr[data-id="' + id + '"] .user-name').text();
                 let firstName = name.split(" ")[0];
@@ -35,28 +36,39 @@ $(document).ready(function () {
                 let role = $('tr[data-id="' + id + '"] .user-role').text();
                 let statusBool = $('tr[data-id="' + id + '"] #statusMark').hasClass('active-circle');
 
-
-//занесення даних відповідного рядка в модальне вікно для редагування
-                if (firstName && lastName && role) {
-                    $('#first-name').val(firstName);
-                    $('#last-name').val(lastName);
-                    $('#modal-status').prop("checked", statusBool);
-                    $('#modal-role').val(role);
-                }
+                //занесення даних відповідного рядка в модальне вікно для редагування
+                $('#first-name').val(firstName);
+                $('#last-name').val(lastName);
+                $('#modal-status').prop("checked", statusBool);
+                $('#modal-role').val(role);
             }
+
+            //очищення модального вікна при закритті модалки (на х) . .btn-edit-user призначає обробник на клік
+            $('.close').click(function () {
+                $('#first-name').val('');
+                $('#last-name').val('');
+                $('#modal-status').prop('checked', false);
+                $('#modal-role').val('-Please Select-');
+            })
+
+            //очищення модального вікна при закритті модалки (на кнопку)
+            $('#modal-btn-close').click(function () {
+                $('#first-name').val('');
+                $('#last-name').val('');
+                $('#modal-status').prop('checked', false);
+                $('#modal-role').val('-Please Select-');
+            })
         })
 
 //збереження змін
-        $('#modal-btn-save').mousedown(function () {
+        $('#modal-btn-save').click(function () {
             let mode = $('.modal-content').attr('data-mode');
 
             // для уникнення помилок при використанні цієї ж модалки mode add
-            if(mode === 'edit'){
+            if (mode === 'edit') {
                 let id = $(this).data('currentRow').data('id');
 
-                console.log("це поточний id", id);
-
-//зміна класу і відповідно кольору даних стовпця Status
+                //зміна класу і відповідно кольору даних стовпця Status
                 let status = $('#modal-status').prop('checked');
                 if (status) {
                     $('tr[data-id="' + id + '"] .status').removeClass('not-active-circle ').addClass('active-circle');
@@ -65,66 +77,66 @@ $(document).ready(function () {
                 }
             }
 
+            if (mode === 'edit') {
+                //заносить редаговані дані у змінні
+                let id = $(this).data('currentRow').data('id');
+                let firstName = $("#first-name").val();
+                let lastName = $("#last-name").val();
+                let role = $("#modal-role").val();
+                let status = $("#modal-status").prop('checked') ? 'on' : 'off';
 
-//отримання даних для занесення в базу даних
-            $('#modal-btn-save').mouseup(function () {
-
-
-                if (mode === 'edit') {
-                    let id = $(this).data('currentRow').data('id');
-                    let firstName = $("#first-name").val();
-                    let lastName = $("#last-name").val();
-                    let role = $("#modal-role").val();
-                    let status = $("#modal-status").prop('checked') ? 'on' : 'off';
-                    console.log('Цей ід записується в базу', id);
-                    $.ajax({
-                        url: '../model/UserEdit.php',
-                        method: 'POST',
-                        data: {
-                            id: id,
-                            firstName: firstName,
-                            lastName: lastName,
-                            role: role,
-                            status: status,
-                        },
-                        success: function (response) {
-
-                            if (response) {
-                                let res = jQuery.parseJSON(response);
-                                return res;
-                            }
-                            ajaxSuccessHandlerEdit()
+                $.ajax({
+                    url: '../model/UserEdit.php',
+                    method: 'POST',
+                    data: {
+                        id: id,
+                        firstName: firstName,
+                        lastName: lastName,
+                        role: role,
+                        status: status,
+                    },
+                    success: function (response) {
+                        ajaxSuccessHandlerEdit();
+                        if (response) {
+                            let res = jQuery.parseJSON(response);
+                            return res;
                         }
-                    })
+                    },
+                    error: function (xhr, status, error) {
+                        let res = jQuery.parseJSON(error);
+                        return res;
+                    }
+                })
 
-                    //очищення модального вікна
-                    $('#first-name').val('');
-                    $('#last-name').val('');
-                    $('#modal-status').prop('checked', false);
-                    $('#modal-role').val('-Please Select-');
+                //очищення модального вікна
+                $('#first-name').val('');
+                $('#last-name').val('');
+                $('#modal-status').prop('checked', false);
+                $('#modal-role').val('-Please Select-');
 
-                    //закриває модальне вікно
-                    $('.modal').modal('hide');
-
-
-                }
-            });
-
+                //закриває модальне вікно
+                $('.modal').modal('hide');
+            }
 
             function ajaxSuccessHandlerEdit() {
                 let id = $('#modal-btn-save').data('currentRow').data('id');
-                // console.log("from .ajaxSuccess()");
+
                 //отримання даних із бека
-                console.log('По цьому ід тягне ІЗ бази', id);
                 $.ajax({
                     url: "./model/UserEditedGet.php",
                     type: "GET",
                     dataType: "json",
                     data: {id: id},
-                    success: function (dataEdited) {
-                        console.log("response from GET", dataEdited);
-                        $('tr[data-id="' + id + '"]').html(displayDataEdited(dataEdited));
+                    success: function (response) {
+                        //вставлення редагованих даних у відповідний рядок
+                        $('tr[data-id="' + id + '"]').html(displayDataEdited(response['arr']));
 
+                        if (response['resp']) {
+                            return response['resp'];
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        return error;
                     }
                 });
 
@@ -152,34 +164,18 @@ $(document).ready(function () {
                     });
                     return html;
                 }
-
             }
-
-
         });
-
-//очищення модального вікна призакритті модалки (на х)
-        $('.close').click(function () {
-
-            $('#first-name').val('');
-            $('#last-name').val('');
-            $('#modal-status').prop('checked', false);
-            $('#modal-role').val('-Please Select-');
-
-        })
-
-        //очищення модального вікна при закритті модалки (на кнопку)
-        $('#modal-btn-close').click(function () {
-
-            $('#first-name').val('');
-            $('#last-name').val('');
-            $('#modal-status').prop('checked', false);
-            $('#modal-role').val('-Please Select-');
-
-        })
     })
+//очистка модального вікна при кліку на бекдроп (mousedown - бо при click при тестуванні юзер може ЛКМ виділивши інпут вилізти за межі модалки, доклікнути на бекдропі і форма очищається, що не правильно)
+    $('#user-form-modal').on('mousedown', function(event) {
+        if(event.target.id === 'user-form-modal'){
+            $('#first-name').val('');
+            $('#last-name').val('');
+            $('#modal-status').prop('checked', false);
+            $('#modal-role').val('-Please Select-');
+        }
+    });
 });
-
-
 
 

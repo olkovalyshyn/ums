@@ -4,10 +4,11 @@ function getAll(){
         type: "GET",
         dataType: "json",
         success: function (dataAll) {
-            $('#items-table').html(displayData(dataAll));
+            $('#items-table').html(displayData(dataAll['arr']));
         }
     });
 }
+//при запуску скрипта разово заносить дані на фронт із бека
 getAll();
 
 //заносить дані, що отримані із бека у форму

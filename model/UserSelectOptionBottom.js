@@ -53,8 +53,13 @@ $(document).ready(function () {
 
 //виклик модального вікна для підтвердження видалення
             $('#modalConfirmDelete').modal('show');
-            let isDeleteUser;
 
+            //встановлює текст модального повідомлення
+            $('.warning-text').html('Do you confirm delete of the user?');
+
+            let isDeleteUser;
+            
+            //дії по кнопці так модалки
             $('#modal-btn-yes').click(function () {
                 isDeleteUser = "yes";
                 $('#modalConfirmDelete').modal('hide');
@@ -74,17 +79,16 @@ $(document).ready(function () {
                                 return res;
                             }
                         })
+
                         //видаляє рядок на фронті
                         $('tr[data-id="' + id + '"]').remove();
 
                         //ставить select options в початкову позицію після виконання дії по option Delete
                         $('#selectedOptionBottom').val('-Please Select-');
-
                     })
-
                 }
-
             })
+            //дії по кнопці ні модалки
             $('#modal-btn-no').click(function () {
                 $('#modalConfirmDelete').modal('hide');
                 isDeleteUser = "no";
@@ -100,6 +104,9 @@ $(document).ready(function () {
             });
         }
 
+        //встановлює назву модального Warning
+        $('.modal-title').html('Warning!');
+
 //вікно попередження, що обраний користувач, натиснута кнопка «ОК», але не вибрано дію в селектбоксі
         let countChecked = $('input[type="checkbox"]:checked').length;
         if (selectedOptionBottom === 'unselectedBottom' && countChecked > 0) {
@@ -108,7 +115,6 @@ $(document).ready(function () {
         }
 
         //вікно попередження, що не обрані користувачі, а в селектбоксі обрана опція та натиснута кнопка «ОК»
-
         if (selectedOptionBottom !== 'unselectedBottom' && countChecked == 0) {
             $('#modalWarning').modal('show');
             $('.warning-text').html('No users selected! Please choose users.');
@@ -120,9 +126,9 @@ $(document).ready(function () {
             $('input[type="checkbox"]').each(function () {
                 $(this).prop('checked', false);
             })
+
             //ставить select options в початкову позицію після виконання дії
             $('#selectedOptionBottom').val('-Please Select-')
-
         });
     })
 });

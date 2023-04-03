@@ -9,8 +9,6 @@ $status = $_POST['status'];
 
 class UserEdit extends ConnectionDb
 {
-    public $response = array('status' => false, 'error' => array('code' => 100, 'message'=> 'not found user'));
-
     public function edit($id, $firstName, $lastName, $role, $status)
     {
         if (isset($firstName) && $firstName != '' && isset($lastName) && $lastName != '' && isset($status) && $status != '' && isset($role) && $role != ''){
@@ -19,10 +17,12 @@ class UserEdit extends ConnectionDb
             $result = $this->connect()->prepare($sql);
 
             if($result->execute($params)){
-                $this->response['status'] = true;
+                $response = array('status' => true, 'error' => null, 'user' => array('id' => $id, 'name_first' => $firstName, 'name_last' => $lastName, 'status' => $status));;
+            } else {
+                $response = array('status' => false, 'error' => array('code' => 100, 'message' => 'not edit user'));
             }
+            echo json_encode($response);
         }
-        return json_encode($this->response);
     }
 }
 
