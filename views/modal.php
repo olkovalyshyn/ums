@@ -33,8 +33,8 @@
                         <div class="col-form-label">Role:</div>
                         <select id="modal-role">Role:
                             <option value="-Please Select-" selected disabled>-Please Select-</option>
-                            <option value="Admin">Admin</option>
-                            <option value="User">User</option>
+                            <option value="1">Admin</option>
+                            <option value="2">User</option>
                         </select>
                     </div>
 

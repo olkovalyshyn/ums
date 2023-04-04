@@ -12,17 +12,32 @@ $(document).ready(function () {
                 let id = $(this).closest('tr').data('id');
                 $('tr[data-id="' + id + '"] #statusMark').removeClass('not-active-circle ').addClass('active-circle');
 
+                //для респонсу
+                let name = $('tr[data-id="' + id + '"] .user-name').text();
+                let firstName = name.split(" ")[0];
+                let lastName = name.split(" ")[1];
+                let role = $('tr[data-id="' + id + '"] .user-role').text();
+                // let status = $('tr[data-id="' + id + '"] #statusMark').hasClass('active-circle') ? '1' : '0';
+
                 $.ajax({
                     url: '../model/UserSelectOption.php',
                     method: 'POST',
                     data: {
                         id: id,
-                        status: 'on',
+                        firstName: firstName,
+                        lastName: lastName,
+                        status: '1',
+                        role: role,
                     },
                     success: function (response) {
                         let res = jQuery.parseJSON(response);
                         return res;
+                    },
+                    error: function (xhr, status, error) {
+                        let res = jQuery.parseJSON(error);
+                        return res;
                     }
+
                 })
             })
         }
@@ -33,17 +48,32 @@ $(document).ready(function () {
                 let id = $(this).closest('tr').data('id');
                 $('tr[data-id="' + id + '"] #statusMark').removeClass('active-circle ').addClass('not-active-circle');
 
+                //для респонсу
+                let name = $('tr[data-id="' + id + '"] .user-name').text();
+                let firstName = name.split(" ")[0];
+                let lastName = name.split(" ")[1];
+                let role = $('tr[data-id="' + id + '"] .user-role').text();
+                // let status = $('tr[data-id="' + id + '"] #statusMark').hasClass('active-circle') ? '1' : '0';
+
                 $.ajax({
                     url: '../model/UserSelectOption.php',
                     method: 'POST',
                     data: {
                         id: id,
-                        status: 'off',
+                        firstName: firstName,
+                        lastName: lastName,
+                        status: '0',
+                        role: role,
                     },
                     success: function (response) {
                         let res = jQuery.parseJSON(response);
                         return res;
+                    },
+                    error: function (xhr, status, error) {
+                        let res = jQuery.parseJSON(error);
+                        return res;
                     }
+
                 })
             })
         }
