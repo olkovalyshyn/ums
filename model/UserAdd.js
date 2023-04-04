@@ -87,7 +87,6 @@ $(document).ready(function () {
                             </div>\
                         </td>\
                     </tr>';
-        // });
         return html;
     }
 });

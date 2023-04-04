@@ -5,7 +5,6 @@ function getAll(){
         dataType: "json",
         success: function (response) {
             response = jQuery.parseJSON(response);
-            // console.log("!!!response",response);
             $('#items-table').html(displayData(response));
         },
         error: function (xhr, status, error) {

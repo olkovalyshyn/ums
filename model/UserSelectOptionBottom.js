@@ -16,7 +16,17 @@ $(document).ready(function () {
                 let name = $('tr[data-id="' + id + '"] .user-name').text();
                 let firstName = name.split(" ")[0];
                 let lastName = name.split(" ")[1];
-                let role = $('tr[data-id="' + id + '"] .user-role').text();
+                let role = $('tr[data-id="' + id + '"] .user-role ').text();
+                switch (role) {
+                    case 'Admin':
+                        role = 1;
+                        break;
+                    case 'User':
+                        role = 2;
+                        break;
+                    default:
+                        role = "-Please Select-";
+                }
                 // let status = $('tr[data-id="' + id + '"] #statusMark').hasClass('active-circle') ? '1' : '0';
 
                 $.ajax({
@@ -52,7 +62,17 @@ $(document).ready(function () {
                 let name = $('tr[data-id="' + id + '"] .user-name').text();
                 let firstName = name.split(" ")[0];
                 let lastName = name.split(" ")[1];
-                let role = $('tr[data-id="' + id + '"] .user-role').text();
+                let role = $('tr[data-id="' + id + '"] .user-role ').text();
+                switch (role) {
+                    case 'Admin':
+                        role = 1;
+                        break;
+                    case 'User':
+                        role = 2;
+                        break;
+                    default:
+                        role = "-Please Select-";
+                }
                 // let status = $('tr[data-id="' + id + '"] #statusMark').hasClass('active-circle') ? '1' : '0';
 
                 $.ajax({

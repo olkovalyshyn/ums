@@ -4,7 +4,7 @@ $(document).ready(function () {
     $('body').on('mousedown', function () {
 
 //виклик модалки для редагування юзера
-        $('.btn-edit-user').click(function () {
+        $('.btn-edit-user').off('click').on('click', function () {
 
             //знімає виділення із чекбоксів перед редагуванням юзера (якщо попередньо були натиснуті)
             $('input[type="checkbox"]').each(function () {
@@ -34,6 +34,16 @@ $(document).ready(function () {
                 let firstName = name.split(" ")[0];
                 let lastName = name.split(" ")[1];
                 let role = $('tr[data-id="' + id + '"] .user-role span').text();
+                switch (role) {
+                    case 'Admin':
+                        role = 1;
+                        break;
+                    case 'User':
+                        role = 2;
+                        break;
+                    default:
+                        role = "-Please Select-";
+                }
                 let statusBool = $('tr[data-id="' + id + '"] #statusMark').hasClass('active-circle');
 
                 //занесення даних відповідного рядка в модальне вікно для редагування
@@ -60,7 +70,6 @@ $(document).ready(function () {
             })
         })
     })
-
 
 
     $('#modal-btn-save').click(function () {
@@ -127,11 +136,9 @@ $(document).ready(function () {
     });
 
 
-
-
 //очистка модального вікна при кліку на бекдроп (mousedown - бо при click при тестуванні юзер може ЛКМ виділивши інпут вилізти за межі модалки, доклікнути на бекдропі і форма очищається, що не правильно)
-    $('#user-form-modal').on('mousedown', function(event) {
-        if(event.target.id === 'user-form-modal'){
+    $('#user-form-modal').on('mousedown', function (event) {
+        if (event.target.id === 'user-form-modal') {
             $('#first-name').val('');
             $('#last-name').val('');
             $('#modal-status').prop('checked', false);
@@ -144,7 +151,7 @@ $(document).ready(function () {
         let html = '';
         // dataEdited.forEach((item, index) => {
 
-            html += '<td class="align-middle">\
+        html += '<td class="align-middle">\
                             <div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">\
                                 <input type="checkbox" name="child" value="' + item.id + '" class="select-option custom-control-input" id="item-' + item.id + '">\
                                 <label class="custom-control-label" for="item-' + item.id + '"></label>\
