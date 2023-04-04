@@ -11,6 +11,7 @@ $(document).ready(function () {
                 $(this).prop('checked', false);
             })
 
+
             //модальному вікну надається дата-режим "edit"
             $('.modal-content').attr('data-mode', 'edit');
             let mode = $('.modal-content').attr('data-mode');
@@ -53,22 +54,43 @@ $(document).ready(function () {
                 $('#modal-role').val(role);
             }
 
-            //очищення модального вікна при закритті модалки (на х) . .btn-edit-user призначає обробник на клік
-            $('.close').click(function () {
-                $('#first-name').val('');
-                $('#last-name').val('');
-                $('#modal-status').prop('checked', false);
-                $('#modal-role').val('-Please Select-');
-            })
-
-            //очищення модального вікна при закритті модалки (на кнопку)
-            $('#modal-btn-close').click(function () {
-                $('#first-name').val('');
-                $('#last-name').val('');
-                $('#modal-status').prop('checked', false);
-                $('#modal-role').val('-Please Select-');
-            })
+            // //очищення модального вікна при закритті модалки (на х) . .btn-edit-user призначає обробник на клік
+            // $('.close').click(function () {
+            //     $('#first-name').val('');
+            //     $('#last-name').val('');
+            //     $('#modal-status').prop('checked', false);
+            //     $('#modal-role').val('-Please Select-');
+            // })
+            //
+            // //очищення модального вікна при закритті модалки (на кнопку)
+            // $('#modal-btn-close').click(function () {
+            //     $('#first-name').val('');
+            //     $('#last-name').val('');
+            //     $('#modal-status').prop('checked', false);
+            //     $('#modal-role').val('-Please Select-');
+            // })
         })
+
+        //очищення модального вікна при закритті модалки (на х) . .btn-edit-user призначає обробник на клік
+        $('.close').click(function () {
+            $('#first-name').val('');
+            $('#last-name').val('');
+            $('#modal-status').prop('checked', false);
+            $('#modal-role').val('-Please Select-');
+            $('#message-empty-fields').html('<span style="color:red"></span>'); //повідомлення про незаповненість полів
+
+        })
+
+        //очищення модального вікна при закритті модалки (на кнопку)
+        $('#modal-btn-close').click(function () {
+            $('#first-name').val('');
+            $('#last-name').val('');
+            $('#modal-status').prop('checked', false);
+            $('#modal-role').val('-Please Select-');
+            $('#message-empty-fields').html('<span style="color:red"></span>'); //повідомлення про незаповненість полів
+
+        })
+
     })
 
 

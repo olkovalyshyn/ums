@@ -34,7 +34,7 @@ $(document).ready(function () {
             // let role = $('#modal-role').val() ? $('#modal-role').val() : 'User';
 
 //валідація і вивід інфо
-            if (firstName && lastName) {
+            if (firstName && lastName && role) {
                 $('.modal').modal('hide');
 
                 // передаємо в БД
@@ -63,7 +63,13 @@ $(document).ready(function () {
                 $('#last-name').val('');
                 $('#modal-status').prop('checked', false);
                 $('#modal-role').val('');
+                $('#message-empty-fields').html('<span style="color:red"></span>'); //повідомлення про незаповненість полів
+            } else {
+                //при наявності незаповнених полів висвічується повідомлення
+                $('#message-empty-fields').html('<span style="color:red">Please, fill all fields...</span>')
             }
+
+
         }
     });
 
