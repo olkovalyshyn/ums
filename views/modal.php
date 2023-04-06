@@ -5,7 +5,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="UserModalLabel">Add user</h5>
 
-                <button type="button" class="close"  data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span id="modal-x-close" aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -37,13 +37,15 @@
                             <option value="2">User</option>
                         </select>
                     </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modal-btn-close">Close</button>
-                        <button type="button" class="btn btn-primary" id="modal-btn-save" >Save</button>
-                    </div>
                 </form>
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modal-btn-close">
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary" id="modal-btn-save">Save</button>
+            </div>
+
         </div>
     </div>
 </div>

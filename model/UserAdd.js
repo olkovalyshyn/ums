@@ -33,50 +33,51 @@ $(document).ready(function () {
             let role = $('#modal-role').val();
             // let role = $('#modal-role').val() ? $('#modal-role').val() : 'User';
 
-//валідація і вивід інфо
-            if (firstName && lastName && role) {
-                $('.modal').modal('hide');
 
-                // передаємо в БД
-                $.ajax({
-                    url: '../model/UserAdd.php',
-                    method: 'POST',
-                    data: {
-                        firstName: firstName,
-                        lastName: lastName,
-                        status: status,
-                        role: role,
-                    },
-                    success: function (response) {
-                        response = jQuery.parseJSON(response);
-
+            // передаємо в БД
+            $.ajax({
+                url: '../model/UserAdd.php',
+                method: 'POST',
+                data: {
+                    firstName: firstName,
+                    lastName: lastName,
+                    status: status,
+                    role: role,
+                },
+                success: function (response) {
+                    response = jQuery.parseJSON(response);
+                    if (response.status) {
                         $('#items-table').append(displayDataAdd(response['user']));
-                    },
-                    error: function (xhr, status, error) {
-                        let res = jQuery.parseJSON(error);
-                        return res;
                     }
-                })
+                    $('.modal').modal('hide');
+                },
+
+                error: function (xhr, status, error) {
+                    let res = jQuery.parseJSON(xhr.responseText);
+
+                    //при наявності незаповнених полів висвічується повідомлення
+                    $('#message-empty-fields').html('<span style="color:red">' + res.error.message + '</span>')
+                    $('#modal-role').val('-Please Select-');
+
+                    return res;
+                }
+            })
 
 //очистка модального вікна
+            if (firstName && lastName && role) {
                 $('#first-name').val('');
                 $('#last-name').val('');
                 $('#modal-status').prop('checked', false);
                 $('#modal-role').val('');
                 $('#message-empty-fields').html('<span style="color:red"></span>'); //повідомлення про незаповненість полів
-            } else {
-                //при наявності незаповнених полів висвічується повідомлення
-                $('#message-empty-fields').html('<span style="color:red">Please, fill all fields...</span>')
             }
-
-
         }
     });
 
     function displayDataAdd(item) {
         let html = '';
 
-            html += '<tr data-id="' + item.id + '" id="tblrow">\
+        html += '<tr data-id="' + item.id + '" data-user-name="' + item.first_name + ' ' + item.last_name + '" id="tblrow">\
                         <td class="align-middle">\
                             <div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">\
                                 <input type="checkbox" name="child" value="' + item.id + '" class="select-option custom-control-input" id="item-' + item.id + '">\
@@ -96,8 +97,4 @@ $(document).ready(function () {
         return html;
     }
 });
-
-
-
-
 

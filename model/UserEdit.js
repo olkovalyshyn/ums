@@ -54,21 +54,6 @@ $(document).ready(function () {
                 $('#modal-role').val(role);
             }
 
-            // //очищення модального вікна при закритті модалки (на х) . .btn-edit-user призначає обробник на клік
-            // $('.close').click(function () {
-            //     $('#first-name').val('');
-            //     $('#last-name').val('');
-            //     $('#modal-status').prop('checked', false);
-            //     $('#modal-role').val('-Please Select-');
-            // })
-            //
-            // //очищення модального вікна при закритті модалки (на кнопку)
-            // $('#modal-btn-close').click(function () {
-            //     $('#first-name').val('');
-            //     $('#last-name').val('');
-            //     $('#modal-status').prop('checked', false);
-            //     $('#modal-role').val('-Please Select-');
-            // })
         })
 
         //очищення модального вікна при закритті модалки (на х) . .btn-edit-user призначає обробник на клік
@@ -173,13 +158,13 @@ $(document).ready(function () {
         let html = '';
         // dataEdited.forEach((item, index) => {
 
-        html += '<td class="align-middle">\
+        html += '<td class="align-middle" >\
                             <div class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top">\
                                 <input type="checkbox" name="child" value="' + item.id + '" class="select-option custom-control-input" id="item-' + item.id + '">\
                                 <label class="custom-control-label" for="item-' + item.id + '"></label>\
                             </div>\
                         </td>\
-                        <td class="user-name text-nowrap align-middle">' + item.first_name + ' ' + item.last_name + '</td>\
+                        <td class="user-name text-nowrap align-middle" data-user-name="' + item.first_name + ' ' + item.last_name + '">' + item.first_name + ' ' + item.last_name + '</td>\
                         <td class="user-role text-nowrap align-middle"><span>' + item.role + '</span></td>\
                         <td class="text-center align-middle"><i id="statusMark" class="fa fa-circle status ' + (item.status === "1" ? "active-circle" : "not-active-circle") + '"></i></td>\
                         <td class="text-center align-middle">\

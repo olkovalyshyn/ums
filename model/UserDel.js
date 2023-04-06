@@ -1,7 +1,8 @@
 $(document).ready(function () {
-    $('body').off('mousedown').on('mousedown', function () {
-        $('.btn-del-user').off('click').on('click',function () {
-            let id = $(this).closest('tr').data('id');
+    $('body').on('mousedown', function () {
+        $('.btn-del-user').on('mouseup',function () {
+            let id = [$(this).closest('tr').data('id')];
+            let userName = $(this).closest('tr').find('.user-name').text();
 
             //знімає виділення із option перед редагуванням юзера (якщо попередньо були натиснуті і не викорстані)
             $('#selectedOption, #selectedOptionBottom').val('-Please Select-');
@@ -15,7 +16,7 @@ $(document).ready(function () {
             $('.modal-title').html('Warning!');
 
             //встановлює текст модального повідомлення
-            $('.warning-text').html('Do you confirm delete of the user?');
+            $('.warning-text').html('Do you confirm delete ' + userName + '?');
 
             //виклик модального вікна для підтвердження видалення
             let isDeleteUser;

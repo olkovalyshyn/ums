@@ -8,7 +8,8 @@ $(document).ready(function () {
 
         //робота з різними опціями селекта
         if (selectedOptionBottom === 'setActiveBottom') {
-            $('input[type="checkbox"]:checked').each(function () {
+            let listSelectedOption = [];
+            $('input[name="child"]:checked').each(function () {
                 let id = $(this).closest('tr').data('id');
                 $('tr[data-id="' + id + '"] #statusMark').removeClass('not-active-circle ').addClass('active-circle');
 
@@ -27,38 +28,49 @@ $(document).ready(function () {
                     default:
                         role = "-Please Select-";
                 }
-                // let status = $('tr[data-id="' + id + '"] #statusMark').hasClass('active-circle') ? '1' : '0';
+                // console.log("!!!",role);
+                let status = $('tr[data-id="' + id + '"] #statusMark').hasClass('active-circle') ? '1' : '0';
 
-                $.ajax({
-                    url: '../model/UserSelectOption.php',
-                    method: 'POST',
-                    data: {
-                        id: id,
-                        firstName: firstName,
-                        lastName: lastName,
-                        status: '1',
-                        role: role,
-                    },
-                    success: function (response) {
-                        let res = jQuery.parseJSON(response);
-                        return res;
-                    },
-                    error: function (xhr, status, error) {
-                        let res = jQuery.parseJSON(error);
-                        return res;
-                    }
+                let selectedOption = {
+                    id: id,
+                    firstName: firstName,
+                    lastName: lastName,
+                    role: role,
+                    status: status,
+                }
+                listSelectedOption.push(selectedOption);
 
-                })
+            })
+            $.ajax({
+                url: '../model/UserSelectOption.php',
+                method: 'POST',
+                data: {
+                    data: listSelectedOption,
+                    // id: id,
+                    // firstName: firstName,
+                    // lastName: lastName,
+                    // status: '1',
+                    // role: role,
+                },
+                success: function (response) {
+                    let res = jQuery.parseJSON(response);
+                    return res;
+                },
+                error: function (xhr, status, error) {
+                    let res = jQuery.parseJSON(error);
+                    return res;
+                }
+
             })
         }
 
 //робота з різними опціями селекта
         if (selectedOptionBottom === 'setNotActiveBottom') {
-            $('input[type="checkbox"]:checked').each(function () {
+            let listSelectedOption = [];
+            $('input[name="child"]:checked').each(function () {
                 let id = $(this).closest('tr').data('id');
                 $('tr[data-id="' + id + '"] #statusMark').removeClass('active-circle ').addClass('not-active-circle');
 
-                //для респонсу
                 let name = $('tr[data-id="' + id + '"] .user-name').text();
                 let firstName = name.split(" ")[0];
                 let lastName = name.split(" ")[1];
@@ -70,31 +82,41 @@ $(document).ready(function () {
                     case 'User':
                         role = 2;
                         break;
-                    default:
-                        role = "-Please Select-";
+                    // default:
+                    //     role = "-Please Select-";
                 }
-                // let status = $('tr[data-id="' + id + '"] #statusMark').hasClass('active-circle') ? '1' : '0';
+                let status = $('tr[data-id="' + id + '"] #statusMark').hasClass('active-circle') ? '1' : '0';
 
-                $.ajax({
-                    url: '../model/UserSelectOption.php',
-                    method: 'POST',
-                    data: {
-                        id: id,
-                        firstName: firstName,
-                        lastName: lastName,
-                        status: '0',
-                        role: role,
-                    },
-                    success: function (response) {
-                        let res = jQuery.parseJSON(response);
-                        return res;
-                    },
-                    error: function (xhr, status, error) {
-                        let res = jQuery.parseJSON(error);
-                        return res;
-                    }
+                let selectedOption = {
+                    id: id,
+                    firstName: firstName,
+                    lastName: lastName,
+                    role: role,
+                    status: status,
+                }
+                listSelectedOption.push(selectedOption);
+            })
+            console.log(listSelectedOption);
 
-                })
+            $.ajax({
+                url: '../model/UserSelectOption.php',
+                method: 'POST',
+                data: {
+                    data: listSelectedOption,
+                    // id: id,
+                    // firstName: firstName,
+                    // lastName: lastName,
+                    // status: '0',
+                    // role: role,
+                },
+                success: function (response) {
+                    let res = jQuery.parseJSON(response);
+                    return res;
+                },
+                error: function (xhr, status, error) {
+                    let res = jQuery.parseJSON(error);
+                    return res;
+                }
             })
         }
 
@@ -104,31 +126,29 @@ $(document).ready(function () {
 //виклик модального вікна для підтвердження видалення
             $('#modalConfirmDelete').modal('show');
 
+            //формує список юзерів, що видаляються
+            let arrUsersNames = [];
+            $('input[type="checkbox"]:checked').each(function(){
+                arrUsersNames.push($(this).closest('tr').data('user-name'));
+            });
+            let usersNames = arrUsersNames.join(', ')
+
             //встановлює текст модального повідомлення
-            $('.warning-text').html('Do you confirm delete of the user?');
+            $('.warning-text').html('Do you confirm delete ' + usersNames + '?');
 
             let isDeleteUser;
 
             //дії по кнопці так модалки
-            $('#modal-btn-yes').click(function () {
+            $('#modal-btn-yes').off('click').on('click',function () {
                 isDeleteUser = "yes";
                 $('#modalConfirmDelete').modal('hide');
 
                 if (isDeleteUser == "yes") {
+
+                    let idDellArr = [];
                     $('input[type="checkbox"]:checked').each(function () {
                         let id = $(this).closest('tr').data('id');
-
-                        $.ajax({
-                            url: '../model/UserDel.php',
-                            method: 'POST',
-                            data: {
-                                id: id,
-                            },
-                            success: function (response) {
-                                let res = jQuery.parseJSON(response);
-                                return res;
-                            }
-                        })
+                        idDellArr.push($(this).closest('tr').data('id'));
 
                         //видаляє рядок на фронті
                         $('tr[data-id="' + id + '"]').remove();
@@ -136,8 +156,25 @@ $(document).ready(function () {
                         //ставить select options в початкову позицію після виконання дії по option Delete
                         $('#selectedOptionBottom').val('-Please Select-');
                     })
+
+                    $.ajax({
+                        url: '../model/UserDel.php',
+                        method: 'POST',
+                        data: {
+                            id: idDellArr,
+                        },
+                        success: function (response) {
+                            let res = jQuery.parseJSON(response);
+                            return res;
+                        },
+                        error: function (xhr, status, error) {
+                            let res = jQuery.parseJSON(error);
+                            return res;
+                        }
+                    })
                 }
             })
+
             //дії по кнопці ні модалки
             $('#modal-btn-no').click(function () {
                 $('#modalConfirmDelete').modal('hide');
@@ -170,7 +207,7 @@ $(document).ready(function () {
             $('.warning-text').html('No users selected! Please choose users.');
         }
 
-        $('#btnOKBottom').mouseup(function () {
+        $('#btnOKBottom, .close span').mouseup(function () {
             //знімає виділення із чекбоксів після виконання дії
 
             $('input[type="checkbox"]').each(function () {
@@ -182,3 +219,4 @@ $(document).ready(function () {
         });
     })
 });
+
